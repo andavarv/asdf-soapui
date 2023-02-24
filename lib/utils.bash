@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for soapui.
-GH_REPO="https://github.com/andavarv/soapui"
+GH_REPO="https://github.com/SmartBear/soapui/releases"
 TOOL_NAME="soapui"
 TOOL_TEST="soapui --version"
 
