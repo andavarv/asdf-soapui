@@ -29,12 +29,13 @@ get_download_url() {
 
 download_release() {
   local version="$1"
+  local download_path="$2"
   local -r platform=$(get_platform)
   local filename
   filename="$(get_filename "$version" "$platform")"
   url="https://dl.eviware.com/soapuios/${version}/${filename}"
   echo "* Downloading $tool_name release $version..."
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  curl "${curl_opts[@]}" -o "$download_path" -C - "$url" || fail "Could not download $url"
 }
 
 
