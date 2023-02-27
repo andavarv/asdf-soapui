@@ -145,7 +145,6 @@ install_version() {
     # echo "${TMP_DOWNLOAD_DIR}"
     # echo "${download_path}"
     # echo "${bin_install_path}"
-    pwd
     # cp "${TMP_DOWNLOAD_DIR}" "${bin_install_path}"
     
     cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}"
