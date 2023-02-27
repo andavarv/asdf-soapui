@@ -57,7 +57,7 @@ list_all_versions() {
   # Fetch all tag names, and get only second column. Then remove all unnecesary characters.
   versions=$(eval "$cmd" | grep -oE "tag_name\": *\".{1,15}\"," | sed 's/tag_name\": *\"//;s/\",//' | sort_versions)
   # shellcheck disable=SC2086
-  $versions
+  echo $versions
 }
 
 
