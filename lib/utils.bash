@@ -37,8 +37,8 @@ download_release() {
   url="https://dl.eviware.com/soapuios/${version}/${filename}"
   echo "URL ==> $url"
   echo "* Downloading $TOOL_NAME release $version..."
-  # curl "${curl_opts[@]}" -o "$download_path" -C - "$url" || fail "Could not download $url"
-  curl -Lo "$download_path" "$url"
+  curl "${curl_opts[@]}" -o "$download_path" -C - "$url" || fail "Could not download $url"
+  # curl -Lo "$download_path" "$url"
 }
 
 
@@ -128,12 +128,12 @@ install_version() {
   # curl -Lo "$download_path" "$download_url"
   # tar -zxvf SoapUI-5.7.0-linux-bin.tar.gz -C /Users/andavar.veeramalai/repos/asdf-soapui/bin/temp
   (
-    echo "Cleaning ${TOOL_NAME} previous binaries"
-    rm -rf "${install_path:?}/${TOOL_NAME}"
+    # echo "Cleaning ${TOOL_NAME} previous binaries"
+    # rm -rf "${install_path:?}/${TOOL_NAME}"
 
     echo "Creating ${TOOL_NAME} bin directory"
     mkdir -p "${install_path}"
-
+    chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
       tar -zxvf "$ASDF_DOWNLOAD_PATH" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
@@ -147,7 +147,7 @@ install_version() {
     # echo "${bin_install_path}"
     pwd
     # cp "${TMP_DOWNLOAD_DIR}" "${bin_install_path}"
-    chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+    
     cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}"
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
