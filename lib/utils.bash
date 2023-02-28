@@ -151,7 +151,7 @@ install_version2() {
     chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
-      tar -zxvf "$download_path" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+      tar -zxvf "$download_path/$TOOL_NAME-$ASDF_INSTALL_VERSION/" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     else 
       unzip -qq "${ASDF_DOWNLOAD_PATH}" -d "${install_path}"
     fi
@@ -174,7 +174,8 @@ install_version() {
   local -r install_type="$1"
   local -r version="$2"
   local install_path="${3%/bin}/bin"
-  
+  local -r platform=$(get_platform)
+  local -r filename="$(get_filename "$version" "$platform")"
    # make a temporary download directory with a cleanup hook
   # TMP_DOWNLOAD_DIR="$(mktemp -d -t "asdf_${TOOL_NAME}_XXXXXX")"
   # readonly TMP_DOWNLOAD_DIR
@@ -186,7 +187,7 @@ install_version() {
   fi
 
   # local -r bin_install_path="${install_path}/bin"
-  local -r platform=$(get_platform)
+  
   # local -r download_url=$(get_download_url "$version" "$platform")
   # local -r download_path="${TMP_DOWNLOAD_DIR}/${version}"
 
@@ -202,7 +203,7 @@ install_version() {
     chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
-      tar -zxvf "$ASDF_DOWNLOAD_PATH" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+      tar -zxvf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     else 
       unzip -qq "${ASDF_DOWNLOAD_PATH}" -d "${install_path}"
     fi
