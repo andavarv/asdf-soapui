@@ -208,7 +208,7 @@ install_version() {
 
     pwd
     pushd "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
-      ehco "Check file exisit"
+      echo "Check file exisit"
       pwd
       ls -a
     popd
