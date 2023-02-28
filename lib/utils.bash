@@ -5,6 +5,7 @@ set -euo pipefail
 # tool name
 TOOL_NAME="SoapUI"
 GH_REPO="https://github.com/SmartBear/soapui"
+TOOL_TEST="soapui --version"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -118,7 +119,7 @@ get_filename() {
 
 
 
-install_version() {
+install_version2() {
   local -r install_type="$1"
   local -r version="$2"
   local install_path="${3%/bin}/bin"
@@ -169,7 +170,7 @@ install_version() {
   )
 }
 
-install_version2() {
+install_version() {
   local -r install_type="$1"
   local -r version="$2"
   local install_path="${3%/bin}/bin"
@@ -212,7 +213,13 @@ install_version2() {
     # echo "${bin_install_path}"
     # cp "${TMP_DOWNLOAD_DIR}" "${bin_install_path}"
     
-    cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}"
+    cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}/$TOOL_NAME"
+
+
+    local tool_cmd
+    tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+    test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
+    
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
     rm -rf "$install_path"
