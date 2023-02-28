@@ -51,10 +51,10 @@ download_release() {
   filename="$(get_filename "$version" "$platform")"
   url="https://dl.eviware.com/soapuios/${version}/${filename}"
   echo "URL ==> $url"
-  echo "* Downloading $TOOL_NAME release $version..."
-  curl "${curl_opts[@]}" -o "$download_path" -C - "$url" || fail "Could not download $url"
-  # curl -Lo "$download_path" "$url"
   echo "Download path => $download_path"
+  echo "* Downloading $TOOL_NAME release $version..."
+  curl "${curl_opts[@]}" -o "$download_path/$filename" -C - "$url" || fail "Could not download $url"
+  # curl -Lo "$download_path" "$url"
   pushd "$download_path"
     echo "Check file exisit"
     pwd
