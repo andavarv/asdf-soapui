@@ -54,6 +54,9 @@ download_release() {
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$download_path" -C - "$url" || fail "Could not download $url"
   # curl -Lo "$download_path" "$url"
+  echo "Download path => $download_path"
+  pwd
+  ls
 }
 
 
@@ -200,7 +203,10 @@ install_version() {
 
     echo "Creating ${TOOL_NAME} bin directory"
     mkdir -p "${install_path}"
-    chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+    echo "Downloadpath => $ASDF_DOWNLOAD_PATH"
+    echo "File path => $ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename"
+
+    pwd
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
       tar -zxvf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
@@ -213,7 +219,7 @@ install_version() {
     # echo "${download_path}"
     # echo "${bin_install_path}"
     # cp "${TMP_DOWNLOAD_DIR}" "${bin_install_path}"
-    
+    chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}/$TOOL_NAME"
 
 
