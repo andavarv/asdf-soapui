@@ -209,7 +209,7 @@ install_version() {
     pwd
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
-      tar -zxvf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+      tar xpf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
     else 
       unzip -qq "${ASDF_DOWNLOAD_PATH}" -d "${install_path}"
     fi
