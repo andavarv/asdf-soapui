@@ -207,6 +207,12 @@ install_version() {
     echo "File path => $ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename"
 
     pwd
+    pushd "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
+      ehco "Check file exisit"
+      pwd
+      ls -a
+    popd
+
     echo "Extracting archive"
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
       sudo tar zxvf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version/$filename" -C "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
