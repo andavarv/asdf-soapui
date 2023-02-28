@@ -186,7 +186,7 @@ install_version() {
   fi
 
   # local -r bin_install_path="${install_path}/bin"
-  # local -r platform=$(get_platform)
+  local -r platform=$(get_platform)
   # local -r download_url=$(get_download_url "$version" "$platform")
   # local -r download_path="${TMP_DOWNLOAD_DIR}/${version}"
 
