@@ -236,8 +236,13 @@ install_version() {
     # echo "${bin_install_path}"
     # cp "${TMP_DOWNLOAD_DIR}" "${bin_install_path}"
     chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
-    cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}/$TOOL_NAME"
+    cp -Rv "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}"
 
+    pushd "$install_path"
+      echo "After Copy Check file exisit"
+      pwd
+      ls -a
+    popd
 
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
