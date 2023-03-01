@@ -3,5 +3,5 @@
 set -euo pipefail
 
 custom_path="$ASDF_INSTALL_PATH/bin/soapui/$ASDF_INSTALL_VERSION/SoapUI-$ASDF_INSTALL_VERSION/bin"
-
+echo "CUSTOM PATH ==> $custom_path"
 plugin/bin/exec-path "$custom_path"
