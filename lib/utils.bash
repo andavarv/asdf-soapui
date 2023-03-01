@@ -5,7 +5,7 @@ set -euo pipefail
 # tool name
 TOOL_NAME="SoapUI"
 GH_REPO="https://github.com/SmartBear/soapui"
-TOOL_TEST="soapui --version"
+
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"

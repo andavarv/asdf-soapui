@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+custom_path="$ASDF_INSTALL_PATH/bin/soapui/$ASDF_INSTALL_VERSION/SoapUI-$ASDF_INSTALL_VERSION/bin"
+
+plugin/bin/exec-path "$custom_path"
