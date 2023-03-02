@@ -121,7 +121,7 @@ install_version() {
     local tool_cmd="testrunner.sh"
     # tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     # test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
-    test -f "${install_path}/$TOOL_NAME-$version/${tool_cmd}" || fail "$install_path/$TOOL_NAME-$version/$tool_cmd file not found."
+    test -f "${install_path}/$TOOL_NAME-$version/bin/${tool_cmd}" || fail "$install_path/$TOOL_NAME-$version/bin/$tool_cmd file not found."
     
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
