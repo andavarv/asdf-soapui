@@ -4,4 +4,4 @@ IFS=$'\n\t'
 
 pwd
 ls -a
-echo -n "SoapUI-$ASDF_INSTALL_VERSION/bin"
+# echo -n "SoapUI-$ASDF_INSTALL_VERSION/bin"
