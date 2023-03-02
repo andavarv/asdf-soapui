@@ -123,8 +123,8 @@ install_version() {
     # test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
     test -f "${install_path}/$TOOL_NAME-$version/bin/${tool_cmd}" || fail "$install_path/$TOOL_NAME-$version/bin/$tool_cmd file not found."
     
-    pushd "${ASDF_PLUGIN_PATH}"
-      echo "plugin path ==> ${ASDF_PLUGIN_PATH}"
+    pushd "${HOME}/.asdf/plugins"
+      # echo "plugin path ==> ${ASDF_PLUGIN_PATH}"
       pwd
       ls -a
     popd
