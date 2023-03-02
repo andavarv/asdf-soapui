@@ -2,6 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-pwd
-ls -a
+# pwd
+# ls -a
 # echo -n "SoapUI-$ASDF_INSTALL_VERSION/bin"

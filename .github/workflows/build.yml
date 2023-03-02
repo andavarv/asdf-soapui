@@ -19,5 +19,5 @@ jobs:
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: test -f "${SOAPUI_PATH}/testrunner.sh" 
+          command: test -f "${{ env.SOAPUI_PATH }}/testrunner.sh" 
           # command: pwd

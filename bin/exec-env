@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-export SOAPUI_PATH="${ASDF_INSTALL_PATH}/bin/SoapUI-$ASDF_INSTALL_VERSION/bin"
+# export SOAPUI_PATH="${ASDF_INSTALL_PATH}/bin/SoapUI-$ASDF_INSTALL_VERSION/bin"
+echo "SOAPUI_PATH=${ASDF_INSTALL_PATH}/bin/SoapUI-$ASDF_INSTALL_VERSION/bin" >> $GITHUB_ENV
