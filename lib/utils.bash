@@ -47,7 +47,7 @@ download_release() {
 
   (
     if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]] || [[ $platform == "macos" ]]; then
-      tar zxvf "$ASDF_DOWNLOAD_PATH/$filename" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1
+      tar zxf "$ASDF_DOWNLOAD_PATH/$filename" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1
     else
       unzip -qq "${ASDF_DOWNLOAD_PATH}/$filename" -d "${install_path}"
     fi
@@ -108,24 +108,14 @@ install_version() {
 
   (
     mkdir -p "${install_path}"
-    echo $install_path
-    echo $ASDF_DOWNLOAD_PATH
+    # echo $install_path
+    # echo $ASDF_DOWNLOAD_PATH
 
-    cp -Rv "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    cp -R "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
-
-    mkdir -p "${HOME}/.asdf/plugins/"
-    mv "$ASDF_DOWNLOAD_PATH"/*  "${HOME}/.asdf/plugins/"
-
-    pushd "${HOME}/.asdf/plugins/"
-      echo "Plugins directory"
-      pwd
-      ls -a
-    popd
-
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
     rm -rf "$install_path"
