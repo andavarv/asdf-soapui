@@ -117,8 +117,14 @@ install_version() {
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
-    mkdir -p ${HOME}/.asdf/plugins/
-    mv "$ASDF_DOWNLOAD_PATH"/*  ${HOME}/.asdf/plugins/
+    mkdir -p "${HOME}/.asdf/plugins/"
+    mv "$ASDF_DOWNLOAD_PATH"/*  "${HOME}/.asdf/plugins/"
+
+    pushd "${HOME}/.asdf/plugins/"
+      echo "Plugins directory"
+      pwd
+      ls -a
+    popd
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
