@@ -15,9 +15,12 @@ jobs:
           - ubuntu-latest
           - macos-latest
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ${HOME}/.asdf/plugins/
     steps:
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: test -f testrunner.sh 
-          # command: pwd
+          command: test -f bin/testrunner.sh 
+              # command: pwd
