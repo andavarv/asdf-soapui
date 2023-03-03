@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-# custom_path="$ASDF_INSTALL_PATH/bin/soapui/$ASDF_INSTALL_VERSION/SoapUI-$ASDF_INSTALL_VERSION/bin"
-# echo "CUSTOM PATH ==> $custom_path"
-# echo "SoapUI-$ASDF_INSTALL_VERSION/bin"
-# plugin/bin/exec-path "$custom_path"
-# ~/.asdf/installs/soapui/bin/exec-path "~/.asdf/installs/soapui/5.7.0/SoapUI-5.7.0/" "test -f" "bin/testrunner.sh"

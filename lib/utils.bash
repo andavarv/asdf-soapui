@@ -3,9 +3,10 @@
 set -euo pipefail
 
 # tool name
-TOOL_NAME="SoapUI"
 GH_REPO="https://github.com/SmartBear/soapui"
-
+DL_URL="https://dl.eviware.com/soapuios"
+TOOL_NAME="SoapUI"
+TOOL_TEST="bin/testrunner.sh"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -33,31 +34,39 @@ list_all_versions() {
   list_github_tags
 }
 
-get_download_url() {
-  local version="$1"
-  local platform="$2"
-  local filename
-  filename="$(get_filename "$version" "$platform")"
-  url="https://dl.eviware.com/soapuios/${version}/${filename}"
-  
-  echo "https://dl.eviware.com/soapuios/${version}/${filename}"
-}
-
 download_release() {
   local version="$1"
   local download_path="$2"
+
   local -r platform=$(get_platform)
-  local filename
-  filename="$(get_filename "$version" "$platform")"
-  url="https://dl.eviware.com/soapuios/${version}/${filename}"
+  local -r url="$(get_download_url "$version" "$platform")"
+  local -r filename="$(get_filename "$version" "$platform")"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$download_path/$filename" -C - "$url" || fail "Could not download $url"
-  
+
+  (
+    if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]] || [[ $platform == "macos" ]]; then
+      tar zxvf "$ASDF_DOWNLOAD_PATH/$filename" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1
+    else
+      unzip -qq "${ASDF_DOWNLOAD_PATH}/$filename" -d "${install_path}"
+    fi
+  ) || fail "Could not extract $ASDF_DOWNLOAD_PATH/$filename"
+}
+
+get_download_url() {
+  local version="$1"
+  local platform="$2"
+
+  local -r filename="$(get_filename "$version" "$platform")"
+
+  url="$DL_URL/$version/$filename"
+  echo "$url"
 }
 
 get_platform() {
   local -r kernel="$(uname -s)"
+
   if [[ ${OSTYPE} == "msys" || ${kernel} == "CYGWIN"* || ${kernel} == "MINGW"* ]]; then
     echo windows
   else
@@ -68,16 +77,16 @@ get_platform() {
 get_filename() {
   local version="$1"
   local platform="$2"
-  
+
   case "${platform}" in
     linux)
-      echo "${TOOL_NAME}-${version}-${platform}-bin.tar.gz"
+      echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
       ;;
     windows)
-      echo "${TOOL_NAME}-${version}-${platform}-bin.zip"
+      echo "${TOOL_NAME}-${version}-windows-bin.zip"
       ;;
-    mac)
-      echo "${TOOL_NAME}-${version}-${platform}-bin.zip"
+    darwin|macos)
+      echo "${TOOL_NAME}-${version}-mac-bin.zip"
       ;;
     *)
       echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
@@ -85,50 +94,29 @@ get_filename() {
   esac
 }
 
-
 install_version() {
   local -r install_type="$1"
   local -r version="$2"
-  local install_path="${3%/bin}/bin"
+  local install_path="$3"
+
   local -r platform=$(get_platform)
   local -r filename="$(get_filename "$version" "$platform")"
-   
 
   if [ "$install_type" != "version" ]; then
     fail "asdf-soapui supports release installs only"
   fi
 
   (
-    # echo "Cleaning ${TOOL_NAME} previous binaries"
-    # rm -rf "${install_path:?}/${TOOL_NAME}"
-
-    echo "Creating ${TOOL_NAME} bin directory"
     mkdir -p "${install_path}"
-    
-    echo "Extracting archive"
-    if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]]|| [[ $platform == "macos" ]]; then 
-      tar zxvf "$ASDF_DOWNLOAD_PATH/$filename" -C "$ASDF_DOWNLOAD_PATH"
-    else 
-      unzip -qq "${ASDF_DOWNLOAD_PATH}" -d "${install_path}"
-    fi
-    
-    
-    echo "Copying binary"
-    
-    chmod +x "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version"
-    cp -Rv "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version" "${install_path}"
+    echo $install_path
+    echo $ASDF_DOWNLOAD_PATH
 
-    local tool_cmd="testrunner.sh"
-    # tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-    # test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
-    test -f "${install_path}/$TOOL_NAME-$version/bin/${tool_cmd}" || fail "$install_path/$TOOL_NAME-$version/bin/$tool_cmd file not found."
-    
-    pushd "${HOME}/.asdf/plugins"
-      # echo "plugin path ==> ${ASDF_PLUGIN_PATH}"
-      pwd
-      ls -a
-    popd
-    
+    cp -Rv "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+
+    local tool_cmd
+    tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+    test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
+
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
     rm -rf "$install_path"
