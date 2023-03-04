@@ -11,10 +11,15 @@ jobs:
     name: dependency install
     runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
+
   plugin_test:
     name: asdf plugin test
+    needs: dependency_install
     strategy:
       matrix:
         os:
