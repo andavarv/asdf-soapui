@@ -7,29 +7,33 @@ on:
   pull_request:
 
 jobs:
+  mac_os_test:
+      name: MAC OS Plugin test
+      runs-on: macos-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Install asdf dependencies
+          uses: asdf-vm/actions/install@v1
+
+        - name: Run javac
+          run: javac -version
+            
+        - name: Run java
+          run: java -version
+
+        - name: asdf_plugin_test
+          uses: asdf-vm/actions/plugin-test@v1
+          with:
+            command: testrunner.sh -help          
+
   plugin_test:
     name: asdf plugin test
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install asdf dependencies
-        uses: asdf-vm/actions/install@v1
-
-      - name: Run javac
-        run: javac -version
-          
-      - name: Run java
-        run: java -version
-
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
           command: testrunner.sh -help
-              # command: pwd
+        
