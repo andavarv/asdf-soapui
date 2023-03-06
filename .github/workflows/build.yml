@@ -9,7 +9,6 @@ on:
 jobs:
   plugin_test:
     name: asdf plugin test
-    needs: dependency_install
     strategy:
       matrix:
         os:
