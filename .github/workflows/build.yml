@@ -17,11 +17,11 @@ jobs:
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
 
-      - name: Run asdf local
-        run: javac - version
+      - name: Run javac
+        run: javac -version
           
-      - name: Run asdf local
-        run: java - version
+      - name: Run java
+        run: java -version
 
   plugin_test:
     name: asdf plugin test
