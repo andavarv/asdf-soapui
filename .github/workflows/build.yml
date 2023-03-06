@@ -17,15 +17,6 @@ jobs:
         - name: Install asdf dependencies
           uses: asdf-vm/actions/install@v1
 
-        - name: Run javac
-          run: javac -version
-            
-        - name: Run java
-          run: java -version
-
-        - name: Run asdf reshim
-          run: asdf reshim
-
         - name: asdf_plugin_test
           uses: asdf-vm/actions/plugin-test@v1
           with:
