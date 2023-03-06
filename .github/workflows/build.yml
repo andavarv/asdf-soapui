@@ -17,6 +17,9 @@ jobs:
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
 
+      - name: Run asdf local
+        run: scripts/javautil.bash
+
   plugin_test:
     name: asdf plugin test
     needs: dependency_install
