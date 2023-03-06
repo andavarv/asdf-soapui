@@ -18,7 +18,10 @@ jobs:
         uses: asdf-vm/actions/install@v1
 
       - name: Run asdf local
-        run: asdf local java adoptopenjdk-jre-11.0.13+8 || echo 'already selected' 
+        run: javac - version
+          
+      - name: Run asdf local
+        run: java - version
 
   plugin_test:
     name: asdf plugin test
