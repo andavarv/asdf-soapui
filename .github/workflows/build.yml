@@ -28,9 +28,6 @@ jobs:
       - name: Run java
         run: java -version
 
-      - name: make local
-        run: asdf local java adoptopenjdk-jre-11.0.13+8 || echo 'already selected'
-
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
