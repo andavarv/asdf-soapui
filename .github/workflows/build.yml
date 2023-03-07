@@ -26,6 +26,9 @@ jobs:
         - name: Print LS 
           run: ls -aRl ${HOME}/.asdf
 
+        - name: asdf reshim
+          run: asdf reshim
+
         - name: asdf_plugin_test
           uses: asdf-vm/actions/plugin-test@v1
           with:
