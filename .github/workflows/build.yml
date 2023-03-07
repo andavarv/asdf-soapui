@@ -23,19 +23,19 @@ jobs:
         - name: Print JAVA Path
           run: which java
 
-        - name: Print LS 
+        - name: Print LS
           run: ls -aRl ${HOME}/.asdf
 
         - name: asdf global
-          run: asdf global java adoptopenjdk-16.0.2+7 
+          run: asdf global java adoptopenjdk-16.0.2+7
 
         - name: asdf reshim
-          run: asdf reshim java adoptopenjdk-16.0.2+7 
+          run: asdf reshim java adoptopenjdk-16.0.2+7
 
         - name: asdf_plugin_test
           uses: asdf-vm/actions/plugin-test@v1
           with:
-            command: testrunner.sh -help
+            command: cat starter-page.html
 
   plugin_test:
     name: asdf plugin test
@@ -45,4 +45,3 @@ jobs:
         uses: asdf-vm/actions/plugin-test@v1
         with:
           command: testrunner.sh -help
-        
