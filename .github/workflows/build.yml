@@ -30,7 +30,7 @@ jobs:
           run: asdf global java adoptopenjdk-16.0.2+7 
 
         - name: asdf reshim
-          run: asdf reshim
+          run: asdf reshim java adoptopenjdk-16.0.2+7 
 
         - name: asdf_plugin_test
           uses: asdf-vm/actions/plugin-test@v1
