@@ -117,12 +117,18 @@ install_version() {
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
     echo "$TOOL_NAME $version installation was successful!"
-    echo "INStall path $install_path"
-    echo "INStall HOME path ${HOME}"
-    pushd "${HOME}/.asdf/installs"
     pwd
     ls -aR
-    popd
+    if [ "$platform" != "linux" ]; then
+      echo "DOWNload path $ASDF_DOWNLOAD_PATH"
+      echo "INStall path $install_path"
+      echo "INStall HOME path ${HOME}"
+      pushd "${HOME}/.asdf/installs"
+      pwd
+    
+      popd
+    fi
+
 
   ) || (
     rm -rf "$install_path"
