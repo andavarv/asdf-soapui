@@ -79,18 +79,18 @@ get_filename() {
   local platform="$2"
 
   case "${platform}" in
-    linux)
-      echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
-      ;;
-    windows)
-      echo "${TOOL_NAME}-${version}-windows-bin.zip"
-      ;;
-    darwin|macos)
-      echo "${TOOL_NAME}-${version}-mac-bin.zip"
-      ;;
-    *)
-      echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
-      ;;
+  linux)
+    echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
+    ;;
+  windows)
+    echo "${TOOL_NAME}-${version}-windows-bin.zip"
+    ;;
+  darwin | macos)
+    echo "${TOOL_NAME}-${version}-mac-bin.zip"
+    ;;
+  *)
+    echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
+    ;;
   esac
 }
 
