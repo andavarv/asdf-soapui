@@ -17,6 +17,9 @@ jobs:
         - name: Install asdf dependencies
           uses: asdf-vm/actions/install@v1
 
+        - name: Print Path
+          run: echo $PATH
+          
         - name: asdf_plugin_test
           uses: asdf-vm/actions/plugin-test@v1
           with:
