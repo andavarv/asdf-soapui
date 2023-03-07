@@ -119,7 +119,8 @@ install_version() {
     echo "$TOOL_NAME $version installation was successful!"
     echo "INStall path $install_path"
     echo "INStall HOME path ${HOME}"
-    pushd "$install_path/$tool_cmd"
+    pushd "${HOME}/.asdf/installs"
+    pwd
     ls -aR
     popd
 
