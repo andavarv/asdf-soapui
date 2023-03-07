@@ -117,6 +117,12 @@ install_version() {
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
     echo "$TOOL_NAME $version installation was successful!"
+    echo "INStall path $install_path"
+    echo "INStall HOME path ${HOME}"
+    pushd "$install_path/$tool_cmd"
+    ls -aR
+    popd
+
   ) || (
     rm -rf "$install_path"
     fail "An error occurred while installing $TOOL_NAME $version."
