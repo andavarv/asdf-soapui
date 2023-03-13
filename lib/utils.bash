@@ -2,10 +2,11 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for soapui.
-GH_REPO="https://github.com/andavarv/soapui"
-TOOL_NAME="soapui"
-TOOL_TEST="soapui --version"
+# tool name
+GH_REPO="https://github.com/SmartBear/soapui"
+DL_URL="https://dl.eviware.com/soapuios"
+TOOL_NAME="SoapUI"
+TOOL_TEST="bin/testrunner.sh"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -14,7 +15,6 @@ fail() {
 
 curl_opts=(-fsSL)
 
-# NOTE: You might want to remove this if soapui is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
   curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
@@ -26,47 +26,98 @@ sort_versions() {
 
 list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
-    grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+    grep -o 'refs/tags/v.*' | cut -d/ -f3- |
+    sed 's/^v//' | grep -Ev 'beta|rc'
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if soapui has other means of determining installable versions.
   list_github_tags
 }
 
 download_release() {
-  local version filename url
-  version="$1"
-  filename="$2"
+  local version="$1"
+  local download_path="$2"
 
-  # TODO: Adapt the release URL convention for soapui
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  local -r platform=$(get_platform)
+  local -r url="$(get_download_url "$version" "$platform")"
+  local -r filename="$(get_filename "$version" "$platform")"
 
   echo "* Downloading $TOOL_NAME release $version..."
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  curl "${curl_opts[@]}" -o "$download_path/$filename" -C - "$url" || fail "Could not download $url"
+
+  (
+    if [[ $platform == "linux" ]] || [[ $platform == "darwin" ]] || [[ $platform == "macos" ]]; then
+      tar zxf "$ASDF_DOWNLOAD_PATH/$filename" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1
+    else
+      unzip -qq "${ASDF_DOWNLOAD_PATH}/$filename" -d "${install_path}"
+    fi
+  ) || fail "Could not extract $ASDF_DOWNLOAD_PATH/$filename"
+}
+
+get_download_url() {
+  local version="$1"
+  local platform="$2"
+
+  local -r filename="$(get_filename "$version" "$platform")"
+
+  url="$DL_URL/$version/$filename"
+  echo "$url"
+}
+
+get_platform() {
+  local -r kernel="$(uname -s)"
+
+  if [[ ${OSTYPE} == "msys" || ${kernel} == "CYGWIN"* || ${kernel} == "MINGW"* ]]; then
+    echo windows
+  else
+    uname | tr '[:upper:]' '[:lower:]'
+  fi
+}
+
+get_filename() {
+  local version="$1"
+  local platform="$2"
+
+  case "${platform}" in
+  linux)
+    echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
+    ;;
+  windows)
+    echo "${TOOL_NAME}-${version}-windows-bin.zip"
+    ;;
+  darwin | macos)
+    echo "${TOOL_NAME}-${version}-mac-bin.zip"
+    ;;
+  *)
+    echo "${TOOL_NAME}-${version}-linux-bin.tar.gz"
+    ;;
+  esac
 }
 
 install_version() {
-  local install_type="$1"
-  local version="$2"
-  local install_path="${3%/bin}/bin"
+  local -r install_type="$1"
+  local -r version="$2"
+  local install_path="$3"
+
+  local -r platform=$(get_platform)
+  local -r filename="$(get_filename "$version" "$platform")"
 
   if [ "$install_type" != "version" ]; then
-    fail "asdf-$TOOL_NAME supports release installs only"
+    fail "asdf-soapui supports release installs only"
   fi
 
   (
-    mkdir -p "$install_path"
-    cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    mkdir -p "${install_path}"
+    # echo $install_path
+    # echo $ASDF_DOWNLOAD_PATH
 
-    # TODO: Assert soapui executable exists.
+    cp -R "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
-
     echo "$TOOL_NAME $version installation was successful!"
+
   ) || (
     rm -rf "$install_path"
     fail "An error occurred while installing $TOOL_NAME $version."
