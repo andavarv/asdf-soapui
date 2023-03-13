@@ -2,7 +2,6 @@
 
 # asdf-soapui [![Build](https://github.com/andavarv/asdf-soapui/actions/workflows/build.yml/badge.svg)](https://github.com/andavarv/asdf-soapui/actions/workflows/build.yml) [![Lint](https://github.com/andavarv/asdf-soapui/actions/workflows/lint.yml/badge.svg)](https://github.com/andavarv/asdf-soapui/actions/workflows/lint.yml)
 
-
 [soapui](https://github.com/andavarv/soapui) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
@@ -16,10 +15,7 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
 - `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
 
@@ -44,7 +40,7 @@ asdf install soapui latest
 asdf global soapui latest
 
 # Now soapui commands are available
-soapui --version
+testrunner.sh
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
@@ -58,4 +54,4 @@ Contributions of any kind welcome! See the [contributing guide](contributing.md)
 
 # License
 
-See [LICENSE](LICENSE) © [Andavar Veeramalai](https://github.com/andavarv/)
+See [MIT License](LICENSE)

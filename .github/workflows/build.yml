@@ -8,15 +8,23 @@ on:
 
 jobs:
   plugin_test:
-    name: asdf plugin test
     strategy:
+      fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
           - macos-latest
+          - ubuntu-latest
+
     runs-on: ${{ matrix.os }}
+
     steps:
-      - name: asdf_plugin_test
+      - name: Use modern Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-package: 'jre'
+          java-version: '17'
+      - name: Test plugin
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: soapui --version
+          command: testrunner.sh

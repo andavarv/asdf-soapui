@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  shellcheck:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,7 +19,7 @@ jobs:
       - name: Run ShellCheck
         run: scripts/shellcheck.bash
 
-  shellfmt:
+  format:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,9 +28,5 @@ jobs:
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
 
-      - name: List file to shfmt
-        run: shfmt -f .
-
       - name: Run shfmt
         run: scripts/shfmt.bash
-
